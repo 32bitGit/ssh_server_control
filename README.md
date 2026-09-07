@@ -1,6 +1,6 @@
 # SSH Server Control for Home Assistant
 
-[ ! [hacs_badge] (https://img.shields.io/badge/HACS-Custom-orange.svg) ] (https://github.com/HACS/integration)
+[![hacs_badge] (https://img.shields.io/badge/HACS-Custom-orange.svg)] (https://github.com/HACS/integration)
 ! [Version] (https://img.shields.io/badge/version-1.0.0-blue.svg)
 ! [License] (https://img.shields.io/badge/license-MIT-green.svg)
 
