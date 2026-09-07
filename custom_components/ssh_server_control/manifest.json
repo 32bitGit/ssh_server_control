@@ -1,0 +1,11 @@
+{
+  "domain": "ssh_server_control",
+  "name": "SSH Server Control",
+  "codeowner": ["@bit"],
+  "documentation": "",
+  "dependencies": [],
+  "integration_type": "hub",
+  "iot_class": "local_polling",
+  "config_flow": true,
+  "version": "1.0.0"
+}

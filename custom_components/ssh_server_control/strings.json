@@ -1,0 +1,58 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "server_ip": "IP-адрес приставки",
+          "server_user": "Пользователь SSH",
+          "key_path": "Путь к приватному SSH-ключу"
+        }
+      },
+      "reconfigure": {
+        "data": {
+          "server_ip": "IP-адрес приставки",
+          "server_user": "Пользователь SSH",
+          "key_path": "Путь к приватному SSH-ключу"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Конструктор Tanix W2"
+      },
+      "manage_menu": {
+        "title": "Управление объектами",
+        "data": {
+          "target_object": "Выберите объект для изменения"
+        }
+      },
+      "manage_object": {
+        "title": "Выберите действие",
+        "data": {
+          "object_action": "Что необходимо сделать?"
+        }
+      },
+      "add_button": {
+        "title": "Настройка Кнопки",
+        "data": {
+          "name": "Название кнопки",
+          "command": "SSH Команда для выполнения",
+          "availability_template": "Шаблон доступности (Jinja, опционально)",
+          "wait_for_result": "Дожидаться выполнения команды (флаг)"
+        }
+      },
+      "add_sensor": {
+        "title": "Настройка Сенсора",
+        "data": {
+          "name": "Название сенсора",
+          "command": "SSH Команда для выполнения",
+          "availability_template": "Шаблон доступности (Jinja, опционально)",
+          "scan_interval": "Интервал обновления (в секундах)",
+          "category": "Категория размещения сенсора"
+        }
+      }
+    }
+  }
+}
