@@ -2,6 +2,8 @@ import logging
 import json
 from datetime import timedelta
 
+#тест
+
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
