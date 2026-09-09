@@ -1,4 +1,5 @@
 import voluptuous as vol
+import copy  # ИМПОРТИРУЕМ модуль для глубокого копирования словарей
 from homeassistant import config_entries
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.selector import TemplateSelector
@@ -58,7 +59,8 @@ class SshServerControlOptionsFlowHandler(config_entries.OptionsFlow):
         """Шаг 3: Выбор действия над объектом."""
         if user_input is not None:
             action = user_input.get("object_action")
-            current_options = dict(self._config_entry.options)
+            # ИСПОЛЬЗУЕМ deepcopy, чтобы изменения заставили HA записать файл на диск!
+            current_options = copy.deepcopy(dict(self._config_entry.options))
             dict_key = "buttons" if self._editing_type == "button" else "sensors"
 
             if action == "delete":
@@ -85,7 +87,8 @@ class SshServerControlOptionsFlowHandler(config_entries.OptionsFlow):
     async def async_step_add_button(self, user_input=None) -> FlowResult:
         """Форма параметров кнопки."""
         errors = {}
-        current_options = dict(self._config_entry.options)
+        # ИСПОЛЬЗУЕМ deepcopy
+        current_options = copy.deepcopy(dict(self._config_entry.options))
         buttons_dict = current_options.get("buttons", {})
 
         defaults = {"name": "", "command": "", "availability_template": "", "wait_for_result": True}
@@ -123,7 +126,8 @@ class SshServerControlOptionsFlowHandler(config_entries.OptionsFlow):
     async def async_step_add_sensor(self, user_input=None) -> FlowResult:
         """Форма параметров сенсора."""
         errors = {}
-        current_options = dict(self._config_entry.options)
+        # ИСПОЛЬЗУЕМ deepcopy
+        current_options = copy.deepcopy(dict(self._config_entry.options))
         sensors_dict = current_options.get("sensors", {})
 
         defaults = {"name": "", "command": "", "availability_template": "", "value_template": "", "unit_of_measurement": "", "scan_interval": 30, "category": "main"}

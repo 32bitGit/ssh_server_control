@@ -2,7 +2,6 @@ import logging
 import json
 from datetime import timedelta
 
-
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
@@ -48,7 +47,7 @@ class TanixDynamicSensor(SensorEntity):
         self._attr_native_value = None
         self._remove_timer = None
         
-        # ВОЗВРАЩАЕМ: Словарь для хранения динамических атрибутов сущности
+        # Словарь для хранения динамических атрибутов сущности
         self._custom_attributes = {}
 
         self._attr_native_unit_of_measurement = config.get("unit_of_measurement", "").strip() or None
@@ -65,7 +64,7 @@ class TanixDynamicSensor(SensorEntity):
 
     @property
     def extra_state_attributes(self) -> dict:
-        """ВОЗВРАЩАЕМ: Передача кастомных атрибутов в ядро Home Assistant."""
+        """Передача кастомных атрибутов в ядро Home Assistant."""
         return self._custom_attributes
 
     @property
@@ -111,7 +110,7 @@ class TanixDynamicSensor(SensorEntity):
             self.async_write_ha_state()
             return
 
-        # --- ВОЗВРАЩАЕМ: МАГИЯ РАЗБОРА JSON-ОТВЕТА ---
+        # --- НАЧАЛО МАГИИ РАЗБОРА JSON-ОТВЕТА ---
         processed_value = raw_result
         try:
             # Пробуем распарсить вывод как JSON-словарь
@@ -121,7 +120,7 @@ class TanixDynamicSensor(SensorEntity):
                 processed_value = json_data.get("state", "")
                 self._custom_attributes = json_data.get("attributes", {})
             else:
-                # Если это валидный JSON, но структура не совпадает — сбрасываем атрибуты
+                # Если это валидный JSON, но структура не совпадает с ТЗ — сбрасываем атрибуты
                 self._custom_attributes = {}
         except (json.JSONDecodeError, TypeError):
             # Если прилетел обычный текст (free -m, df -h), работаем в стандартном режиме
@@ -143,3 +142,9 @@ class TanixDynamicSensor(SensorEntity):
             self._attr_native_value = processed_value
 
         self.async_write_ha_state()
+
+    async def async_will_remove_from_hass(self) -> None:
+        """Чистим таймеры при удалении."""
+        if self._remove_timer:
+            self._remove_timer()
+            self._remove_timer = None
