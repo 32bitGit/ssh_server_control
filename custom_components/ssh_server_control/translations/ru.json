@@ -1,0 +1,66 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Добавление SSH сервера",
+        "data": {
+          "server_name": "Название сервера (например, Tanix W2)",
+          "server_ip": "IP-адрес или домен сервера",
+          "server_port": "Порт SSH (по умолчанию 22)",
+          "server_user": "Пользователь SSH",
+          "key_path": "Путь к приватному SSH-ключу"
+        }
+      },
+      "reconfigure": {
+        "title": "Перенастройка SSH сервера",
+        "data": {
+          "server_name": "Название сервера",
+          "server_ip": "IP-адрес или домен сервера",
+          "server_port": "Порт SSH",
+          "server_user": "Пользователь SSH",
+          "key_path": "Путь к приватному SSH-ключу"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Конструктор объектов сервера"
+      },
+      "manage_menu": {
+        "title": "Управление объектами",
+        "data": {
+          "target_object": "Выберите объект для изменения"
+        }
+      },
+      "manage_object": {
+        "title": "Выберите действие",
+        "data": {
+          "object_action": "Что необходимо сделать?"
+        }
+      },
+      "add_button": {
+        "title": "Настройка Кнопки",
+        "data": {
+          "name": "Название кнопки",
+          "command": "SSH Команда для выполнения",
+          "availability_template": "Шаблон доступности (Jinja)",
+          "wait_for_result": "Дожидаться выполнения команды"
+        }
+      },
+      "add_sensor": {
+        "title": "Настройка Сенсора",
+        "data": {
+          "name": "Название сенсора",
+          "command": "SSH Команда для выполнения",
+          "value_template": "Шаблон состояния сенсора (Jinja, переменная value)",
+          "unit_of_measurement": "Единица измерения (например, °C, %, МБ)",
+          "availability_template": "Шаблон доступности (Jinja)",
+          "scan_interval": "Интервал обновления (в секундах)",
+          "category": "Категория размещения сенсора"
+        }
+      }
+    }
+  }
+}

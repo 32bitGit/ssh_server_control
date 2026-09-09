@@ -1,0 +1,66 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add SSH Server",
+        "data": {
+          "server_name": "Server name (e.g., Tanix W2)",
+          "server_ip": "Server IP address or domain",
+          "server_port": "SSH Port (default 22)",
+          "server_user": "SSH Username",
+          "key_path": "Private SSH key path"
+        }
+      },
+      "reconfigure": {
+        "title": "Reconfigure SSH Server",
+        "data": {
+          "server_name": "Server name",
+          "server_ip": "Server IP address or domain",
+          "server_port": "SSH Port",
+          "server_user": "SSH Username",
+          "key_path": "Private SSH key path"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Server Object Constructor"
+      },
+      "manage_menu": {
+        "title": "Manage Objects",
+        "data": {
+          "target_object": "Select object to modify"
+        }
+      },
+      "manage_object": {
+        "title": "Select Action",
+        "data": {
+          "object_action": "What needs to be done?"
+        }
+      },
+      "add_button": {
+        "title": "Button Configuration",
+        "data": {
+          "name": "Button name",
+          "command": "SSH Command to execute",
+          "availability_template": "Availability template (Jinja)",
+          "wait_for_result": "Wait for command execution result"
+        }
+      },
+      "add_sensor": {
+        "title": "Sensor Configuration",
+        "data": {
+          "name": "Sensor name",
+          "command": "SSH Command to execute",
+          "value_template": "Sensor value template (Jinja, value variable)",
+          "unit_of_measurement": "Unit of measurement (e.g., °C, %, MB)",
+          "availability_template": "Availability template (Jinja)",
+          "scan_interval": "Scan interval (seconds)",
+          "category": "Sensor placement category"
+        }
+      }
+    }
+  }
+}
