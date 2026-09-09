@@ -3,6 +3,7 @@ import json
 from datetime import timedelta
 
 #тест
+#тест2
 
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
