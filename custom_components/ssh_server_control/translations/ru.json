@@ -1,24 +1,81 @@
 {
   "config": {
+    "abort": {
+      "reconfigure_successful": "Настройки успешно изменены!"
+    },
     "step": {
       "user": {
-        "title": "Добавление SSH сервера",
+        "title": "Выбор типа хаба",
+        "description": "Выберите, какой тип устройства вы хотите добавить в систему:",
+        "data": {
+          "hub_type": "Тип хаба"
+        }
+      },
+      "generic": {
+        "title": "Настройка Универсального сервера",
+        "description": "Введите основные параметры подключения к вашему server_ip:",
         "data": {
           "server_name": "Название сервера (например, Tanix W2)",
           "server_ip": "IP-адрес или домен сервера",
           "server_port": "Порт SSH (по умолчанию 22)",
           "server_user": "Пользователь SSH",
+          "auth_type": "Тип авторизации"
+        }
+      },
+      "generic_key": {
+        "title": "Авторизация по SSH-ключу",
+        "description": "Укажите абсолютный путь к вашему приватному ключу авторизации:",
+        "data": {
           "key_path": "Путь к приватному SSH-ключу"
         }
       },
-      "reconfigure": {
-        "title": "Перенастройка SSH сервера",
+      "generic_password": {
+        "title": "Авторизация по паролю",
+        "description": "Введите пароль пользователя для подключения по SSH:",
+        "data": {
+          "server_password": "Пароль SSH"
+        }
+      },
+      "immich": {
+        "title": "Сетевые параметры сервера Immich",
+        "description": "Укажите параметры SSH-подключения к серверу, на котором развернут Docker с Immich:",
         "data": {
           "server_name": "Название сервера",
           "server_ip": "IP-адрес или домен сервера",
+          "server_port": "Порт SSH (по умолчанию 22)",
+          "server_user": "Пользователь SSH (например, bit)",
+          "auth_type": "Тип авторизации"
+        }
+      },
+      "immich_auth": {
+        "title": "Параметры контейнера Immich",
+        "description": "Введите секреты авторизации SSH и укажите настройки целевого контейнера Immich:",
+        "data": {
+          "server_password": "Пароль SSH",
+          "key_path": "Путь к приватному SSH-ключу",
+          "immich_remote_port": "Порт API Immich (обычно 2283)",
+          "immich_ssl": "Использовать защищенное соединение (HTTPS)",
+          "immich_api_key": "API-ключ Immich",
+          "immich_compose_path": "Путь к файлу docker-compose.yml",
+          "immich_backup_path": "Путь к папке для бэкапов БД",
+          "immich_db_user": "Пользователь БД PostgreSQL"
+        }
+      },
+      "reconfigure": {
+        "title": "Перенастройка параметров хаба",
+        "description": "Обновите необходимые данные для подключения к выбранному устройству:",
+        "data": {
+          "server_ip": "IP-адрес или домен сервера",
           "server_port": "Порт SSH",
           "server_user": "Пользователь SSH",
-          "key_path": "Путь к приватному SSH-ключу"
+          "key_path": "Путь к приватному SSH-ключу",
+          "server_password": "Пароль SSH",
+          "immich_remote_port": "Порт API Immich",
+          "immich_ssl": "Использовать защищенное соединение (HTTPS)",
+          "immich_api_key": "API-KEY Immich",
+          "immich_compose_path": "Путь к файлу docker-compose.yml",
+          "immich_backup_path": "Путь к папке для бэкапов",
+          "immich_db_user": "Пользователь БД PostgreSQL"
         }
       }
     }
@@ -26,31 +83,56 @@
   "options": {
     "step": {
       "init": {
-        "title": "Конструктор объектов сервера"
+        "title": "Конструктор объектов сервера",
+        "description": "Выберите действие над компонентами интеграции:",
+        "menu_options": {
+          "immich_settings": "Настройки Immich",
+          "add_button": "Добавить новую кастомную кнопку",
+          "add_sensor": "Добавить новый кастомный сенсор",
+          "manage_menu": "Редактировать или удалить кастомный объект"
+        }
+      },
+      "immich_settings": {
+        "title": "Резервное копирование Immich",
+        "description": "Задайте параметры хранения резервных копий базы данных PostgreSQL:",
+        "data": {
+          "immich_backup_keep_days": "Срок хранения резервных копий (в днях)",
+          "immich_backup_keep_count": "Максимальное количество копий для сохранения"
+        }
       },
       "manage_menu": {
-        "title": "Управление объектами",
+        "title": "Управление кастомными объектами",
+        "description": "Выберите из списка сущность, которую вы хотите изменить или стереть из системы:",
         "data": {
-          "target_object": "Выберите объект для изменения"
+          "target_object": "Объект для изменения"
+        },
+        "management": {
+          "builtin_button": "[Встроенная кнопка] {name}",
+          "builtin_switch": "[Встроенный тумблер] {name}",
+          "builtin_sensor": "[Встроенный сенсор] {name}",
+          "custom_button": "[Кнопка] {name}",
+          "custom_sensor": "[Сенсор] {name}"
         }
       },
       "manage_object": {
-        "title": "Выберите действие",
+        "title": "Операция над объектом",
+        "description": "Отметьте чекбокс, если вы хотите стереть сущность. Оставьте пустым для редактирования параметров:",
         "data": {
-          "object_action": "Что необходимо сделать?"
+          "delete_object": "Полностью удалить этот объект из хаба"
         }
       },
       "add_button": {
-        "title": "Настройка Кнопки",
+        "title": "Настройка кнопки",
         "data": {
           "name": "Название кнопки",
           "command": "SSH Команда для выполнения",
           "availability_template": "Шаблон доступности (Jinja)",
-          "wait_for_result": "Дожидаться выполнения команды"
+          "wait_for_result": "Дожидаться выполнения команды",
+          "category": "Категория размещения кнопки"
         }
       },
       "add_sensor": {
-        "title": "Настройка Сенсора",
+        "title": "Настройка кастомного сенсора",
         "data": {
           "name": "Название сенсора",
           "command": "SSH Команда для выполнения",
@@ -59,6 +141,62 @@
           "availability_template": "Шаблон доступности (Jinja)",
           "scan_interval": "Интервал обновления (в секундах)",
           "category": "Категория размещения сенсора"
+        }
+      }
+    }
+  },
+  "selector": {
+    "hub_type": {
+      "options": {
+        "generic": "Универсальный Linux-сервер (SSH)",
+        "immich": "Сервер Immich (Управление фотохостингом)"
+      }
+    },
+    "auth_type": {
+      "options": {
+        "key": "По приватному SSH-ключу",
+        "password": "По паролю пользователя"
+      }
+    },
+    "category": {
+      "options": {
+        "main": "Основной сенсор / Кнопка управления",
+        "diagnostic": "Диагностический системный объект"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "immich_status": {
+        "state": {
+          "checking": "Проверка...",
+          "stopped": "Остановлен",
+          "starting": "Запускается...",
+          "busy": "Занят (Обработка файлов)",
+          "running": "Работает",
+          "not_found": "Контейнер не найден",
+          "backup": "Создание бэкапа БД",
+          "pulling": "Скачивание образов",
+          "restarting": "Перезапуск контейнеров",
+          "pruning": "Очистка старых слоев",
+          "success": "Обновлено успешно",
+          "error": "Ошибка обновления"
+        }
+      },
+      "immich_update": {
+        "state": {
+          "checking": "Проверка...",
+          "network_error": "Ошибка сети",
+          "update_available_breaking": "Критическое обновление",
+          "update_available": "Доступно обновление",
+          "up_to_date": "Актуальная версия"
+        }
+      },
+      "custom_sensor": {
+        "state": {
+          "checking": "Проверка...",
+          "connection_error": "Ошибка связи по SSH",
+          "template_error": "Ошибка Jinja-шаблона"
         }
       }
     }

@@ -1,24 +1,81 @@
 {
   "config": {
+    "abort": {
+      "reconfigure_successful": "Settings successfully reconfigured!"
+    },
     "step": {
       "user": {
-        "title": "Add SSH Server",
+        "title": "Select Hub Type",
+        "description": "Choose which type of device you want to add to the system:",
         "data": {
-          "server_name": "Server name (e.g., Tanix W2)",
-          "server_ip": "Server IP address or domain",
+          "hub_type": "Hub Type"
+        }
+      },
+      "generic": {
+        "title": "Configure Generic Server",
+        "description": "Enter the main parameters for connecting to your server:",
+        "data": {
+          "server_name": "Server Name (e.g., Tanix W2)",
+          "server_ip": "Server IP or Domain",
           "server_port": "SSH Port (default 22)",
           "server_user": "SSH Username",
-          "key_path": "Private SSH key path"
+          "auth_type": "Authentication Type"
+        }
+      },
+      "generic_key": {
+        "title": "SSH Key Authentication",
+        "description": "Specify the absolute path to your private authentication key:",
+        "data": {
+          "key_path": "Path to Private SSH Key"
+        }
+      },
+      "generic_password": {
+        "title": "Password Authentication",
+        "description": "Enter the user password for SSH connection:",
+        "data": {
+          "server_password": "SSH Password"
+        }
+      },
+      "immich": {
+        "title": "Immich Server Network Parameters",
+        "description": "Specify the SSH connection parameters for the server hosting Docker with Immich:",
+        "data": {
+          "server_name": "Server Name",
+          "server_ip": "Server IP or Domain",
+          "server_port": "SSH Port (default 22)",
+          "server_user": "SSH Username (e.g., bit)",
+          "auth_type": "Authentication Type"
+        }
+      },
+      "immich_auth": {
+        "title": "Immich Container Parameters",
+        "description": "Enter SSH authentication secrets and specify the target Immich container settings:",
+        "data": {
+          "server_password": "SSH Password",
+          "key_path": "Path to Private SSH Key",
+          "immich_remote_port": "Immich API Port (usually 2283)",
+          "immich_ssl": "Use Secure Connection (HTTPS)",
+          "immich_api_key": "Immich API Key",
+          "immich_compose_path": "Path to docker-compose.yml file",
+          "immich_backup_path": "Path to DB Backup Folder",
+          "immich_db_user": "PostgreSQL DB Username"
         }
       },
       "reconfigure": {
-        "title": "Reconfigure SSH Server",
+        "title": "Reconfigure Hub Parameters",
+        "description": "Update the necessary connection data for the selected device:",
         "data": {
-          "server_name": "Server name",
-          "server_ip": "Server IP address or domain",
+          "server_ip": "Server IP or Domain",
           "server_port": "SSH Port",
           "server_user": "SSH Username",
-          "key_path": "Private SSH key path"
+          "key_path": "Path to Private SSH Key",
+          "server_password": "SSH Password",
+          "immich_remote_port": "Immich API Port",
+          "immich_ssl": "Use Secure Connection (HTTPS)",
+          "immich_api_key": "Immich API Key",
+          "immich_compose_path": "Path to docker-compose.yml file",
+          "immich_backup_path": "Path to Backup Folder",
+          "immich_db_user": "PostgreSQL DB Username"
         }
       }
     }
@@ -26,40 +83,78 @@
   "options": {
     "step": {
       "init": {
-        "title": "Server Object Constructor"
+        "title": "Server Object Constructor",
+        "description": "Choose an action for the integration components:",
+        "menu_options": {
+          "immich_settings": "Immich Settings",
+          "add_button": "Add New Custom Button",
+          "add_sensor": "Add New Custom Sensor",
+          "manage_menu": "Edit or Delete Custom Object"
+        }
+      },
+      "immich_settings": {
+        "title": "Immich Backups Configuration",
+        "description": "Set PostgreSQL database backup storage parameters:",
+        "data": {
+          "immich_backup_keep_days": "Backup retention period (in days)",
+          "immich_backup_keep_count": "Maximum number of copies to retain"
+        }
       },
       "manage_menu": {
-        "title": "Manage Objects",
+        "title": "Manage Custom Objects",
+        "description": "Select the entity from the list that you want to modify or erase from the system:",
         "data": {
-          "target_object": "Select object to modify"
+          "target_object": "Object to Modify"
         }
       },
       "manage_object": {
-        "title": "Select Action",
+        "title": "Object Operation",
+        "description": "Check the box if you want to erase the entity. Leave empty to edit parameters:",
         "data": {
-          "object_action": "What needs to be done?"
+          "delete_object": "Completely delete this object from the hub"
         }
       },
       "add_button": {
         "title": "Button Configuration",
         "data": {
-          "name": "Button name",
-          "command": "SSH Command to execute",
-          "availability_template": "Availability template (Jinja)",
-          "wait_for_result": "Wait for command execution result"
+          "name": "Button Name",
+          "command": "SSH Command to Execute",
+          "availability_template": "Availability Template (Jinja)",
+          "wait_for_result": "Wait for Command Execution Result",
+          "category": "Button Placement Category"
         }
       },
       "add_sensor": {
-        "title": "Sensor Configuration",
+        "title": "Custom Sensor Configuration",
         "data": {
-          "name": "Sensor name",
-          "command": "SSH Command to execute",
-          "value_template": "Sensor value template (Jinja, value variable)",
-          "unit_of_measurement": "Unit of measurement (e.g., °C, %, MB)",
-          "availability_template": "Availability template (Jinja)",
-          "scan_interval": "Scan interval (seconds)",
-          "category": "Sensor placement category"
+          "name": "Sensor Name",
+          "command": "SSH Command to Execute",
+          "value_template": "Sensor State Template (Jinja, variable value)",
+          "unit_of_measurement": "Unit of Measurement (e.g., °C, %, MB)",
+          "availability_template": "Availability Template (Jinja)",
+          "scan_interval": "Update Interval (in seconds)",
+          "category": "Sensor Placement Category"
         }
+      }
+    }
+  },
+  "selector": {
+    "hub_type": {
+      "options": {
+        "generic": "Generic Linux Server (SSH)",
+        "immich": "Immich Server (Photo Hosting Management)"
+      }
+    },
+    "auth_type": {
+      "options": {
+        "key": "Via Private SSH Key",
+        "password": "Via User Password"
+      }
+    },
+    "category": {
+      "options": {
+        "main": "Main Sensor / Control Button",
+        "diagnostic": "Diagnostic System Object"
       }
     }
   }

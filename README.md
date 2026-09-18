@@ -1,52 +1,71 @@
 # SSH Server Control for Home Assistant
 
-A powerful Home Assistant custom integration that transforms your system into a dynamic GUI constructor for managing and monitoring any Linux server over SSH using secure RSA keys.
+A powerful Home Assistant custom integration that transforms your system into a dynamic GUI constructor for managing any Linux server over SSH, featuring a specialized native profile for **Immich Photo Hosting Hub**.
 
 ---
 
 ## 🇷🇺 Описание на русском языке
 
-**SSH Server Control** — это универсальная интеграция для Home Assistant, которая позволяет превратить систему в полноценный графический конструктор для управления и мониторинга любых удаленных Linux-серверов (или приставок, например Tanix W2) по протоколу SSH.
+**SSH Server Control** — это универсальная интеграция для Home Assistant, позволяющая превратить вашу систему в полноценный графический конструктор для безопасного удаленного управления и мониторинга любых Linux-серверов (компьютеров, одноплатников или ТВ-приставок, с linux на борту) по протоколу SSH с использованием приватных ключей.
 
-### Основные возможности (Features)
-* **Мульти-хаб архитектура:** Добавляйте сколько угодно независимых Linux-серверов через стандартный интерфейс «Добавить интеграцию». Каждому серверу можно задать свое имя, IP-адрес, кастомный SSH-порт и пользователя.
-* **Графический конструктор (GUI Constructor):** Нажмите на шестерёнку настроек любого добавленного сервера, чтобы на лету добавлять, редактировать или удалять кнопки и сенсоры без изменения кода Python.
-* **Умные сенсоры (Dynamic Sensors):** Создавайте датчики для любых bash-команд (мониторинг ОЗУ, CPU, Docker-контейнеров, Immich). Каждому датчику можно задать свой интервал обновления в секундах и привязать единицу измерения (°C, %, МБ).
-* **Многострочный редактор Jinja:** Встроенная поддержка графического редактора шаблонов Home Assistant для полей «Шаблон доступности» (Availability Template) и «Шаблон состояния» (Value Template). Обрабатывайте сырые ответы от сервера прямо в GUI.
-* **Принудительный опрос (Force Update):** Все сенсоры поддерживают стандартную службу `homeassistant.update_entity`. Вы можете принудительно вызывать обновление датчиков из автоматизаций, Node-RED или API в обход таймеров.
-* **Безопасность:** Подключение осуществляется строго по приватным SSH-ключам (без паролей).
+![Immich Server Control Dashboard](screenshots/dashboard_preview.png)
 
----
 
-## Installation via HACS (Установка)
+### 🚀 Основные возможности (Features)
 
-1. Open **HACS** in your Home Assistant.
-2. Click on the **three dots** in the top right corner and select **Custom repositories**.
-3. Paste the URL of this repository into the **Repository** field.
-4. Select **Integration** as the category and click **Add**.
-5. Find **SSH Server Control** in the HACS search, download it, and restart Home Assistant.
-
-## Configuration (Настройка)
-
-1. Go to **Settings** ➔ **Devices & Services** ➔ **Add Integration**.
-2. Search for **SSH Server Control**.
-3. Fill in your server details:
-   * **Server Name:** A custom name for your device card.
-   * **IP Address:** Remote host IP or domain.
-   * **SSH Port:** Custom port (defaults to 22).
-   * **Username:** SSH user (e.g., `root` or `bit`).
-   * **Private Key Path:** Full path to your private key (e.g., `/config/.ssh/id_rsa`).
+* **Мульти-хаб архитектура:** Добавляйте неограниченное количество независимых Linux-серверов через стандартный интерфейс интеграций Home Assistant. Каждому серверу задается свое имя, IP-адрес/домен, кастомный SSH-порт и пользователь.
+* **Специализированный хаб Immich (Immich Photo Hosting Hub):** Родной пресет интеграции, созданный специально для комплексного управления фотохостингом Immich в Docker:
+  * **Реактивный мониторинг статуса:** Сенсор отслеживает не просто текстовые состояния контейнеров, а опирается на скрытые системные атрибуты (`container_is_running`, `api_is_online`), обеспечивая нулевой оверхед процессора.
+  * **Интеллектуальная предпроверка обновлений:** Запросы к GitHub API изолированы от системного поллинга, что гарантирует 100% защиту от блокировок и банов по IP.
+  * **Безопасная цепочка обновлений (Safe Update Chain):** Установка обновлений в один клик с многоступенчатым контуром безопасности: автоматическая проверка активности фоновых задач Immich перед стартом ➔ горячий бэкап базы данных PostgreSQL ➔ строгая проверка валидности и размера файла дампа на диске ➔ ротация и очистка старых бэкапов по количеству и дням только в случае успеха.
+* **Графический конструктор (GUI Constructor):** Нажмите на шестерёнку настроек любого добавленного сервера, чтобы прямо на лету добавлять, редактировать или удалять новые кнопки, переключатели и сенсоры без изменения кода Python.
+* **Умные сенсоры (Dynamic Sensors):** Создавайте датчики для любых Bash-команд (мониторинг ОЗУ, CPU, температуры, дисков, состояния Docker). Каждому датчику можно задать свой изолированный интервал обновления в секундах и привязать единицу измерения (°C, %, МБ).
+* **Многострочный редактор Jinja:** Полная нативная поддержка графического редактора шаблонов Home Assistant для полей «Шаблон доступности» (Availability Template) и «Шаблон состояния» (Value Template). Обрабатывайте сырые текстовые и JSON-ответы от сервера прямо в GUI.
+* **Принудительный опрос (Force Update):** Все сенсоры поддерживают стандартную службу `homeassistant.update_entity`. Вы можете принудительно вызывать обновление датчиков из автоматизаций, Node-RED или скриптов в обход таймеров.
+* **Высокая безопасность:** Подключение осуществляется строго по приватным SSH-ключам (RSA/ED25519) без использования небезопасных паролей в конфигурации.
 
 ---
 
-## Smart Sensor Example (Пример настройки датчика ОЗУ)
+## 🛠️ Installation via HACS (Установка)
 
-To monitor free RAM on your remote machine, add a new sensor via the integration gear button with these fields:
-* **Name:** `Free Memory`
-* **Command:** `free -m | grep Mem | awk '{print $4}'`
-* **Value template:** `{{ value | int }}`
-* **Unit of measurement:** `MB`
-* **Scan interval:** `30`
+1. Откройте **HACS** в интерфейсе вашего Home Assistant.
+2. Нажмите на **три точки** в правом верхнем углу и выберите **Пользовательские репозитории** (Custom repositories).
+3. Вставьте URL-адрес этого репозитория в поле **Репозиторий**.
+4. Выберите **Интеграция** (Integration) в качестве категории и нажмите **Добавить**.
+5. Найдите **SSH Server Control** в поиске HACS, скачайте его и перезагрузите Home Assistant.
 
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+---
+
+## ⚙️ Configuration (Первичная настройка хаба)
+
+1. Перейдите в **Настройки** ➔ **Устройства и службы** ➔ **Добавить интеграцию**.
+2. Найдите в поиске **SSH Server Control**.
+3. Заполните конфигурационные данные вашего сервера:
+   * **Тип хаба (Hub Type):** Выберите `Generic Linux Server` для создания чистого конструктора или `Immich Server Preset` для автоматического развертывания экосистемы управления фотохостингом.
+   * **Имя сервера:** Кастомное отображаемое имя для карточки устройства (например, `My Linux Server`).
+   * **IP-адрес / Домен:** Сетевой адрес удаленной машины.
+   * **SSH Порт:** Кастомный порт (по умолчанию 22).
+   * **Имя пользователя:** Логин пользователя на сервере (например, `user` или `root`).
+   * **Путь к приватному ключу:** Полный путь к вашему приватному SSH-ключу внутри контейнера Home Assistant (например, `/config/.ssh/id_rsa`).
+
+---
+
+## 📈 Пример карточки сущностей в интерфейсе (Dashboard Example)
+
+Благодаря нативному трекеру шаблонов ядра Home Assistant, кнопки управления и датчики статуса обладают сквозной реактивностью и мгновенно меняют свои иконки и доступность на приборной панели при изменении состояния сервера:
+
+![Dashboard Entities](screenshots/entities_preview.png)
+
+### 📝 Smart Sensor Example (Пример ручной настройки датчика ОЗУ)
+
+Чтобы добавить мониторинг свободной оперативной памяти на удаленной машине в режиме Generic-конструктора, нажмите кнопку «Настроить» на карточке интеграции и добавьте сенсор со следующими параметрами:
+* **Имя сенсора:** `Свободная память`
+* **Команда (Command):** `free -m | grep Mem | awk '{print $4}'`
+* **Шаблон состояния (Value template):** `{{ value | int }}`
+* **Единица измерения (Unit):** `MB`
+* **Интервал опроса (Scan interval):** `30`
+
+---
+
+## 📄 License
+Этот проект распространяется под лицензией MIT. Подробности см. в файле [LICENSE](LICENSE).
