@@ -8,6 +8,8 @@ from .ssh_client import async_run_ssh_command
 
 _LOGGER = logging.getLogger(__name__)
 
+# Тестовый комментарий
+
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Запуск конкретного экземпляра хаба (Универсальный или единый Immich через SSH)."""
     hub_type = entry.data.get("hub_type", "generic")
