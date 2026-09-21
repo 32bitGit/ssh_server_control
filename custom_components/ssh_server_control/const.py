@@ -12,14 +12,14 @@ DEFAULT_SERVER_NAME = "Linux Server"
 DEFAULT_IMMICH_SERVER_NAME = "Immich Server"
 DEFAULT_SERVER_IP = "127.0.0.1"
 DEFAULT_SERVER_PORT = 22
-DEFAULT_SERVER_USER = "bit"
+DEFAULT_SERVER_USER = "root"
 DEFAULT_KEY_PATH = "/config/.ssh/id_rsa"
 DEFAULT_SERVER_PASSWORD = ""
 
 # Дефолтные пути и параметры контейнеров Immich для удобной очистки в одном месте
-DEFAULT_IMMICH_COMPOSE_PATH = "/home/bit/immich-app/docker-compose.yml"
-DEFAULT_IMMICH_BACKUP_PATH = "/mnt/hdd/immich-backups"
-DEFAULT_IMMICH_DB_USER = "32bit"
+DEFAULT_IMMICH_COMPOSE_PATH = "~/immich-app/docker-compose.yml"
+DEFAULT_IMMICH_BACKUP_PATH = "~/immich-backups"
+DEFAULT_IMMICH_DB_USER = "postgres"
 
 # 1. Шаблон состояния по умолчанию для сенсора Immich Update (Определяем ПЕРВЫМ)
 DEFAULT_IMMICH_UPDATE_VALUE_TEMPLATE = (
