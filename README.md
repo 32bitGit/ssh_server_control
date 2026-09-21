@@ -67,5 +67,7 @@ A powerful Home Assistant custom integration that transforms your system into a 
 
 ---
 
+![Server example](screenshots/server_example.png)
+
 ## 📄 License
 Этот проект распространяется под лицензией MIT. Подробности см. в файле [LICENSE](LICENSE).
