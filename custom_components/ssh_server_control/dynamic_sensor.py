@@ -152,6 +152,16 @@ class TanixDynamicSensor(SensorEntity):
             await self._execute_internal_macro(command)
             return
 
+        if "{{" in command or "{%" in command:
+            try:
+                tpl = template_helper.Template(command, self.hass)
+                command = str(tpl.async_render(variables={"entity_id": self.entity_id}, parse_result=False)).strip()
+            except Exception as err:
+                _LOGGER.error(f"Ошибка Jinja-шаблона в SSH-команде сенсора {self._attr_name}: {err}")
+                self._attr_native_value = None if self._attr_native_unit_of_measurement else "template_error"
+                self.async_write_ha_state()
+                return
+
         raw_result = await async_run_ssh_command(command, wait_for_result=True, hass=self.hass, entry=self._entry)
         
         if raw_result == "" or raw_result is None:

@@ -116,6 +116,22 @@ class TanixDynamicButton(ButtonEntity):
             self.hass.async_create_task(self._async_execute_update_sequence())
             return
 
+        if "{{" in command or "{%" in command:
+            try:
+                tpl = template_helper.Template(command, self.hass)
+                command = str(tpl.async_render(variables={"entity_id": self.entity_id}, parse_result=False)).strip()
+            except Exception as err:
+                _LOGGER.error(f"Ошибка Jinja-шаблона в SSH-команде кнопки {self._attr_name}: {err}")
+                return
+
+        if "{{" in command or "{%" in command:
+            try:
+                tpl = template_helper.Template(command, self.hass)
+                command = str(tpl.async_render(variables={"entity_id": self.entity_id}, parse_result=False)).strip()
+            except Exception as err:
+                _LOGGER.error(f"Ошибка Jinja-шаблона в SSH-команде кнопки {self._attr_name}: {err}")
+                return
+
         wait_for_result = self._config.get("wait_for_result", True)
         await async_run_ssh_command(command, wait_for_result=wait_for_result, hass=self.hass, entry=self._entry)
 
