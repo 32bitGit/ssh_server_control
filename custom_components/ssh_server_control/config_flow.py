@@ -4,6 +4,8 @@ from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.data_entry_flow import FlowResult
 
+# Тест
+
 from .const import (
     DOMAIN,
     PREFIX_HTTP,
