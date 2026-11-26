@@ -1,6 +1,5 @@
 """Глобальные внешние параметры, дефолты и ссылки интеграции SSH Server Control."""
 
-# Тест 1
 
 DOMAIN = "ssh_server_control"
 
